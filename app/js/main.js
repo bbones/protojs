@@ -28,6 +28,7 @@ requirejs
 
 require([ 'jquery', 'backbone', 'backbone.marionette' ], function($, Backbone,
 		Marionette) {
+	"use strict";
 
 	$(document).ready(function() {
 		console.log('Document is ready.');
@@ -40,13 +41,31 @@ require([ 'jquery', 'backbone', 'backbone.marionette' ], function($, Backbone,
 			mainRegion: "#main-region"
 		});
 		
-		ContactManager.StaticView = Marionette.ItemView.extend({
-			template: "#static-template"
+		ContactManager.Contact = Backbone.Model.extend({});
+		
+		ContactManager.ContactView = Marionette.ItemView.extend({
+			template: "#contact-template",
+			events: {
+				"click p": "alertPhoneNumber"
+			},
+
+			alertPhoneNumber: function(){
+				alert(this.model.escape("phoneNumber"));
+			}
 		});
 
 		ContactManager.on("start", function(){
-			var staticView = new ContactManager.StaticView();
-			ContactManager.mainRegion.show(staticView);
+			var alice = new ContactManager.Contact({
+				firstName: "Alice",
+				lastName: "Arten",
+				phoneNumber: "555-0184"
+			});
+
+			var aliceView = new ContactManager.ContactView({
+				model: alice
+			});
+
+			ContactManager.mainRegion.show(aliceView);
 		});
 
 		ContactManager.start();
