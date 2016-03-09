@@ -7,7 +7,8 @@ requirejs
 				'backbone.babysitter' : '../lib/backbone.babysitter/lib/backbone.babysitter',
 				'backbone.wreqr' : '../lib/backbone.wreqr/lib/backbone.wreqr',
 				'backbone.marionette' : '../lib/marionette/lib/core/backbone.marionette',
-				'bootstrap' : '../lib/bootstrap/dist/js/bootstrap.js'
+				'bootstrap' : '../lib/bootstrap/dist/js/bootstrap.js',
+				'contractManager' : 'contractManager.js'
 			},
 			shim : {
 				underscore : {
@@ -26,8 +27,8 @@ requirejs
 			deps : [ 'jquery', 'underscore' ]
 		});
 
-require([ 'jquery', 'backbone', 'backbone.marionette' ], function($, Backbone,
-		Marionette) {
+require([ 'jquery', 'backbone', 'backbone.marionette', 'contractManager' ], function($, Backbone,
+		Marionette, ContractManager) {
 	"use strict";
 
 	$(document).ready(function() {
@@ -35,38 +36,6 @@ require([ 'jquery', 'backbone', 'backbone.marionette' ], function($, Backbone,
 		console.log('jQuery: ', $);
 		console.log('Backbone: ', Backbone);
 		console.log('Marionette: ', Marionette);
-		var ContactManager = new Marionette.Application();
-
-		ContactManager.addRegions({
-			mainRegion: "#main-region"
-		});
-		
-		ContactManager.Contact = Backbone.Model.extend({});
-		
-		ContactManager.ContactView = Marionette.ItemView.extend({
-			template: "#contact-template",
-			events: {
-				"click p": "alertPhoneNumber"
-			},
-
-			alertPhoneNumber: function(){
-				alert(this.model.escape("phoneNumber"));
-			}
-		});
-
-		ContactManager.on("start", function(){
-			var alice = new ContactManager.Contact({
-				firstName: "Alice",
-				lastName: "Arten",
-				phoneNumber: "555-0184"
-			});
-
-			var aliceView = new ContactManager.ContactView({
-				model: alice
-			});
-
-			ContactManager.mainRegion.show(aliceView);
-		});
 
 		ContactManager.start();
 
