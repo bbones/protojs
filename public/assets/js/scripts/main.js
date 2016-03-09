@@ -21,16 +21,18 @@ requirejs.config({
   'paths': {
     'jquery': 'lib/jquery-2.1.4',
     'underscore': 'lib/underscore',
+    'bootstrap' : 'lib/bootstrap',
     'app': 'scripts/app'
   },
   shim: {
 	    underscore: {
 	      exports: "_"
-	    }
+	    },
+	    bootstrap : { "deps" :['jquery'] }
 	}
 });
 
-var app = require(['app'], function(app) {
+var app = require(['app','bootstrap'], function(app, bootstrap) {
   'use strict';
 
   app.init();
